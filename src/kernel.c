@@ -1,5 +1,5 @@
 #include "kernel.h"
-
+#include "idt/idt.h"
 
 uint16_t *video_mem = 0;
 uint16_t terminal_row = 0;
@@ -50,7 +50,8 @@ size_t strlen(const char *str) {
 }
 
 
-void print(const char *str) {
+void print(const char *str)
+{
 	size_t len = strlen(str);
 	for(int i = 0; i<len; i++)
 		terminal_writechar(str[i], terminal_default_colour);
@@ -70,8 +71,14 @@ void info() {
 	print("Email: baybaraandrey@gmail.com\n");
 }
 
+extern void problem();
+
 void kernel_main()
 {
 	terminal_initialize();
+
+	// Initialize the interrupt descriptor table
+	idt_init();
 	info();
+	problem();
 }
