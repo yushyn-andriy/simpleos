@@ -35,4 +35,7 @@ clean:
 	rm -rf ./bin/os.bin
 	rm -rf ${FILES}
 	rm -rf ./build/kernelfull.o
+	rm -rf ./build/kernel.o
+	rm -rf ./build/kernel.asm.o
+
 
