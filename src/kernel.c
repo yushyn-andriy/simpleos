@@ -66,7 +66,7 @@ void terminal_ascii_test() {
 void info() {
 	// terminal_ascii_test();
 	print("OS: SimpleOS V0.0.1\n");
-	print("Author: Andriy Yushyn\n");
+	print("Authors: Andriy Yushyn, Svitlana Yushyna.\n");
 	print("Email: baybaraandrey@gmail.com\n");
 }
 
