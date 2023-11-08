@@ -5,7 +5,6 @@
 ; section .asm
 
 global _start
-global problem
 
 extern kernel_main
 
@@ -39,15 +38,11 @@ _start:
 	out 0x21, al
 	; End remap the master
 	 
+	sti
 
 	call kernel_main
 	
 	jmp $
-
-problem:
-	mov eax, 0
-	div eax
-
 
 
 times 512-($ - $$) db 0

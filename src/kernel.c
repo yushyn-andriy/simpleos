@@ -72,7 +72,6 @@ void info() {
 	print("Email: baybaraandrey@gmail.com\n");
 }
 
-extern void problem();
 
 void kernel_main()
 {
@@ -81,7 +80,6 @@ void kernel_main()
 	// Initialize the interrupt descriptor table
 	idt_init();
 	info();
-	problem();
 
 	outb(0x60, 0xff);
 
