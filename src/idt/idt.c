@@ -9,7 +9,11 @@ struct idtr_desc idtr_descriptor;
 
 
 extern void idt_load(struct idtr_desc *ptr);
+extern void int21h();
 
+void int21h_handler() {
+	print("Keyboard pressed");
+}
 
 void idt_zero() {
 	print("Division by zero\n");
@@ -32,7 +36,8 @@ void idt_init() {
 	idtr_descriptor.base = (uint32_t) idt_descriptors;
 	
 	idt_set(0, idt_zero);
-	
+	idt_set(0x21, int21h);
+
 	idt_load(&idtr_descriptor);
 }
 
