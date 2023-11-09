@@ -113,9 +113,14 @@ void pkinfo() {
 	print("Email: baybaraandrey@gmail.com\n");
 }
 
-
+static struct paging_4gb_chunk *kernel_chunk;
 void kernel_main()
 {
+	// initialize terminal
+	terminal_initialize();
+
+	// print kernel info
+	pkinfo();
 
 	// inititalize the heap
 	kheap_init();
@@ -124,25 +129,28 @@ void kernel_main()
 	// Initialize the interrupt descriptor table
 	idt_init();
 
+	// Setup paging
+    kernel_chunk = paging_new_4gb(PAGING_IS_WRITEABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+	
+	// Switch to kernel paging chunk
+	paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
+
+	// Enable paging
+	enable_paging();
+
 	// from this place we are able to enable interrupts
 	enable_interrupts();
 
-	// initialize terminal
-	terminal_initialize();
 
-	// print kernel info
-	pkinfo();
-
-
-	void *ptr = kmalloc(50);
-	void *ptr2 = kmalloc(5000);
-	if(ptr || ptr2) {
-		print_size_t((size_t)ptr);
-		print("\n");
-		print_size_t((size_t)ptr2);
-		print("\n");
-		print_size_t(0);
-	}
+	// void *ptr = kmalloc(50);
+	// void *ptr2 = kmalloc(5000);
+	// if(ptr || ptr2) {
+	// 	print_size_t((size_t)ptr);
+	// 	print("\n");
+	// 	print_size_t((size_t)ptr2);
+	// 	print("\n");
+	// 	print_size_t(0);
+	// }
 
 	// outb(0x60, 0xff);
 }
