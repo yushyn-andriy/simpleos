@@ -2,6 +2,8 @@
 #include "idt/idt.h"
 #include "io/io.h"
 #include "memory/heap/kheap.h"
+#include "memory/paging/paging.h"
+
 
 uint16_t *video_mem = 0;
 uint16_t terminal_row = 0;
