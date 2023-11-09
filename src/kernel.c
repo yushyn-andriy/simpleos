@@ -61,30 +61,41 @@ void print(const char *str)
 
 
 
+// reverse string in place
+void strrev(char *s)
+{
+	size_t len = strlen(s);
+	char tmp;
+	for(int i = 0; i < len/2; i++)
+	{
+		tmp = s[i];
+		s[i] = s[len - i - 1];
+		s[len - i - 1] = tmp;
+	}
+}
 
-void print_int(size_t n) {
-	char s[15];
-	char tmp[15];
+void print_size_t(size_t n) {
+	char res[SIZE_T_MAX_LEN+1];
+
+	if(n == 0) {
+		res[0] = 0x30;
+		res[1] = 0;
+		goto pout;
+	} 
+
 
 	int i = 0;
 	while(n>0) {
 		int rest = n % 10;
 		n =  (n - rest) / 10;
-		s[i] = rest + 0x30;
-		// terminal_writechar(rest + 0x30, terminal_default_colour);
-		// print("\n");
+		res[i] = rest + 0x30;
 		i++;
 	}
-	s[i] = 0;
-	tmp[i] = 0;
+	res[i] = 0;
+	strrev(res);
 
-	i = i - 1;
-	for(int j = i; j >= 0; j--) {
-		tmp[i-j] = s[j];
-	}
-	print("address: ");
-	print(tmp);
-	print("\n");
+pout:
+	print(res);
 }
 
 
@@ -93,7 +104,7 @@ void terminal_ascii_test() {
 		terminal_writechar(ch, terminal_default_colour);
 }
 
-void info() {
+void pkinfo() {
 	// terminal_ascii_test();
 	print("OS: SimpleOS V0.0.1\n");
 	print("Authors: Andriy Yushyn, Svitlana Yushyna.\n");
@@ -103,8 +114,6 @@ void info() {
 
 void kernel_main()
 {
-	terminal_initialize();
-
 
 	// inititalize the heap
 	kheap_init();
@@ -112,15 +121,25 @@ void kernel_main()
 
 	// Initialize the interrupt descriptor table
 	idt_init();
-	info();
+
+	// from this place we are able to enable interrupts
+	enable_interrupts();
+
+	// initialize terminal
+	terminal_initialize();
+
+	// print kernel info
+	pkinfo();
 
 
 	void *ptr = kmalloc(50);
 	void *ptr2 = kmalloc(5000);
 	if(ptr || ptr2) {
-		print_int((size_t)ptr);
+		print_size_t((size_t)ptr);
 		print("\n");
-		print_int((size_t)ptr2);
+		print_size_t((size_t)ptr2);
+		print("\n");
+		print_size_t(0);
 	}
 
 	// outb(0x60, 0xff);

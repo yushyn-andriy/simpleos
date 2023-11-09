@@ -38,10 +38,12 @@ _start:
 	out 0x21, al
 	; End remap the master
 	 
-	sti
+	; It isn't the right way to enable interrupts before
+	; we initialize interrupt descriptor table
+	; sti
 
 	call kernel_main
-	
+
 	jmp $
 
 
