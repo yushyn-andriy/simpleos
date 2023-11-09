@@ -16,7 +16,11 @@ void kheap_init()
     void *end = (void*)(SIMPLEOS_HEAP_ADDRESS + SIMPLEOS_HEAP_SIZE_BYTES);
     int ret = heap_create(&kernel_heap, (void*)(SIMPLEOS_HEAP_ADDRESS), end, &kernel_heap_table);
     if( ret < 0 ) {
-        print("fail to create heap\n");
+        print("Failed to create heap\n");
     }
+}
 
+void *kmalloc(size_t size)
+{
+    return heap_malloc(&kernel_heap, size);
 }
