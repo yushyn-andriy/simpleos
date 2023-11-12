@@ -4,7 +4,6 @@
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
 #include "disk/disk.h"
-#include "string/string.h"
 #include "stdlib/stdlib.h"
 #include "terminal/terminal.h"
 
