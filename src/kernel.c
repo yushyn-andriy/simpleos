@@ -3,7 +3,7 @@
 #include "io/io.h"
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
-
+#include "disk/disk.h"
 
 uint16_t *video_mem = 0;
 uint16_t terminal_row = 0;
@@ -100,6 +100,30 @@ pout:
 	print(res);
 }
 
+void print_short(short n) {
+	char res[SIZE_T_MAX_LEN+1];
+
+	if(n == 0) {
+		res[0] = 0x30;
+		res[1] = 0;
+		goto pout;
+	} 
+
+
+	int i = 0;
+	while(n>0) {
+		int rest = n % 10;
+		n =  (n - rest) / 10;
+		res[i] = rest + 0x30;
+		i++;
+	}
+	res[i] = 0;
+	strrev(res);
+
+pout:
+	print(res);
+}
+
 
 void terminal_ascii_test() {
 	for(char ch = 0x21; ch<=0x7e; ch++)
@@ -136,35 +160,21 @@ void kernel_main()
 	paging_switch(paging_4gb_chunk_get_directory(kernel_chunk));
 
 
-	char *ptr = kzalloc(4096);
-	paging_set(paging_4gb_chunk_get_directory(kernel_chunk), (void*)0x1000, (uint32_t)ptr | PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITEABLE);
-
 	// Enable paging
 	enable_paging();
 
-	char *ptr2 = (void*)0x1000;
-	ptr2[0] = 'A';
-	ptr2[1] = 'B';
-	ptr2[2] = 'C';
-	
-	print(ptr2);
-	
-	print(ptr);
-	
-	// from this place we are able to enable interrupts
+	char buf[512];
+	disk_read_sector(0, 1, buf);	
+	// ata_lba_read(0, 1, buf);
+
+	print_short((unsigned char)170);
+	for(int i = 0; i<10; i++) {
+		unsigned char *n = (unsigned char*) &buf[i];
+		print_short(i);
+		print(" ");
+		print_short(*n);
+		print("\n");
+	}
+
 	enable_interrupts();
-
-
-
-
-	// void *ptr = kmalloc(10);
-	// void *ptr2 = kmalloc(10);
-	// if(ptr || ptr2) {
-	// 	print_size_t((size_t)ptr);
-	// 	print("\n");
-	// 	print_size_t((size_t)ptr2);
-	// 	print("\n");
-	// }
-
-	// outb(0x60, 0xff);
 }

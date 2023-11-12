@@ -105,7 +105,7 @@ ata_lba_read:
 	out dx, al
 	; Finished sending upper 16 bits of the LBA
 
-	mov dx, 0x1f7
+	mov dx, 0x1F7
 	mov al, 0x20
 	out dx, al
 	
@@ -116,7 +116,7 @@ ata_lba_read:
 
 ; check if we need to read
 .try_again:
-	mov dx, 0x1f7
+	mov dx, 0x1F7
 	in al, dx
 	test al, 8
 	jz .try_again
