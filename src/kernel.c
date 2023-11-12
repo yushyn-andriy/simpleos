@@ -100,30 +100,22 @@ pout:
 	print(res);
 }
 
-void print_short(short n) {
-	char res[SIZE_T_MAX_LEN+1];
+void print_hex(unsigned int num) {
+    char hex_chars[] = "0123456789ABCDEF";
+    int i;
+    int started = 0;
 
-	if(n == 0) {
-		res[0] = 0x30;
-		res[1] = 0;
-		goto pout;
-	} 
+	terminal_writechar('0', terminal_default_colour);
+	terminal_writechar('x', terminal_default_colour);
 
-
-	int i = 0;
-	while(n>0) {
-		int rest = n % 10;
-		n =  (n - rest) / 10;
-		res[i] = rest + 0x30;
-		i++;
-	}
-	res[i] = 0;
-	strrev(res);
-
-pout:
-	print(res);
+    for (i = 28; i >= 0; i -= 4) {
+        int digit = (num >> i) & 0xF;
+        if (digit != 0 || started || i == 0) {
+			terminal_writechar(hex_chars[digit], terminal_default_colour);
+            started = 1;
+        }
+    }
 }
-
 
 void terminal_ascii_test() {
 	for(char ch = 0x21; ch<=0x7e; ch++)
@@ -167,13 +159,10 @@ void kernel_main()
 	disk_read_sector(0, 1, buf);	
 	// ata_lba_read(0, 1, buf);
 
-	print_short((unsigned char)170);
-	for(int i = 0; i<10; i++) {
+	for(int i = 100; i<512; i++) {
 		unsigned char *n = (unsigned char*) &buf[i];
-		print_short(i);
 		print(" ");
-		print_short(*n);
-		print("\n");
+		print_hex(*n);
 	}
 
 	enable_interrupts();
