@@ -9,7 +9,9 @@ FILES = ./build/kernel.asm.o \
 		./build/memory/paging/paging.asm.o \
 		./build/memory/paging/paging.o \
 		./build/disk/disk.o \
-		./build/disk/disk.asm.o
+		./build/disk/disk.asm.o \
+		./build/string/string.o \
+		./build/terminal/terminal.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce \
 			-fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label \
@@ -85,8 +87,17 @@ all: ./bin/boot.bin ./bin/kernel.bin
 ./build/disk/disk.o: ./src/disk/disk.c
 	i686-elf-gcc $(INCLUDES) -I../src/disk $(FLAGS) -std=gnu99 -c  ./src/disk/disk.c -o ./build/disk/disk.o
 
+
 ./build/disk/disk.asm.o: ./src/disk/disk.asm
 	nasm -f elf -g ./src/disk/disk.asm -o ./build/disk/disk.asm.o
+
+
+./build/string/string.o: ./src/string/string.c
+	i686-elf-gcc $(INCLUDES) -I../src/string $(FLAGS) -std=gnu99 -c  ./src/string/string.c -o ./build/string/string.o
+
+
+./build/terminal/terminal.o: ./src/terminal/terminal.c
+	i686-elf-gcc $(INCLUDES) -I../src/terminal $(FLAGS) -std=gnu99 -c  ./src/terminal/terminal.c -o ./build/terminal/terminal.o
 
 
 
