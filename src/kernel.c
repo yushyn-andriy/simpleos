@@ -141,6 +141,9 @@ void kernel_main()
 	// inititalize the heap
 	kheap_init();
 
+	// Search amd initialize the disks
+	disk_search_and_init();
+
 
 	// Initialize the interrupt descriptor table
 	idt_init();
@@ -155,8 +158,12 @@ void kernel_main()
 	// Enable paging
 	enable_paging();
 
+
 	char buf[512];
-	disk_read_sector(0, 1, buf);	
+	struct disk *real_disk = disk_get(0);
+	disk_read_block(real_disk, 0, 1, buf);
+
+	// disk_read_sector(0, 1, buf);	
 	// ata_lba_read(0, 1, buf);
 
 	for(int i = 100; i<512; i++) {
