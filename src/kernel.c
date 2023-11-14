@@ -4,6 +4,7 @@
 #include "memory/heap/kheap.h"
 #include "memory/paging/paging.h"
 #include "disk/disk.h"
+#include "disk/streamer.h"
 #include "stdlib/stdlib.h"
 #include "terminal/terminal.h"
 #include "memory/memory.h"
@@ -47,10 +48,17 @@ void kernel_main()
 	enable_paging();
 
 
+	enable_interrupts();
+
 	printf("%s\n", strpath_root(pathparser_parse("0:/usr/lib/clib/stdlib.c", NULL)));
 	printf("%s\n", strpath_root(pathparser_parse("0:/home/web/opt/cross/lib/gcc/i686-elf/10.2.0/include/stddef.h", NULL)));
 	printf("%s\n", strpath_root(pathparser_parse("0:/usr/src/linux-source-6.1/include/uapi/linux/stddef.h", NULL)));
 	
 
-	enable_interrupts();
+	struct disk_stream *stream = diskstreamer_new(0);
+	diskstreamer_seek(stream, 0x200);
+
+	unsigned char c = 0;
+	diskstreamer_read(stream, &c, 1);
+	printf("%x\n", c);
 }
