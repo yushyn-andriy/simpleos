@@ -6,6 +6,9 @@
 #include "disk/disk.h"
 #include "stdlib/stdlib.h"
 #include "terminal/terminal.h"
+#include "memory/memory.h"
+#include "string/string.h"
+#include "fs/pparser.h"
 
 
 void pkinfo() {
@@ -52,10 +55,28 @@ void kernel_main()
 	// disk_read_sector(0, 1, buf);	
 	// ata_lba_read(0, 1, buf);
 
-	for(int i = 100; i<512; i++) {
+	for(int i = 100; i<5; i++) {
 		unsigned char *n = (unsigned char*) &buf[i];
 		print(" ");
 		print_hex(*n);
+	}
+
+	char *s = "0:/usr/lib/clib/stdlib.c";
+	size_t len = strlen(s);
+
+	print_hex(memcmp("1:/usr/lib/clib/stdlib.c", s, len));
+
+	struct path_root *root =  pathparser_parse(s, NULL);
+
+	if(root) {
+		print("\npath root has been succesfully created\n");
+
+		struct path_part *part = root->first;
+		while(part) {
+			print(part->part);
+			print("\n");
+			part = part->next;
+		}
 	}
 
 	enable_interrupts();

@@ -9,7 +9,7 @@
 size_t  strlen(const char *s);
 
 // get string lenght with limit
-size_t  lstrlen(const char *s, unsigned int limit);
+size_t  strnlen(const char *s, int max);
 
 // reverse string in place
 void strrev(char *s);

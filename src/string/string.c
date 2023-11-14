@@ -11,15 +11,14 @@ size_t strlen(const char *s) {
 	return len;
 }
 
-size_t  lstrlen(const char *s, unsigned int limit)
+size_t  strnlen(const char *s, int max)
 {
-	size_t len = 0;
-	while(*s != 0) {
-		len++;
-		s++;
-		if(len >= limit) return -1;	
+	int i = 0;
+	for(; i < max; i++)
+	{
+		if(s[i] == 0) break;
 	}
-	return len;
+	return i;
 }
 
 

@@ -36,3 +36,8 @@ void *kzalloc(size_t size)
     memset(ptr, 0x00, size);
     return ptr;
 }
+
+void kfree(void* ptr)
+{
+    heap_free(&kernel_heap, ptr);
+}
