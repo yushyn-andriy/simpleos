@@ -3,6 +3,7 @@
 #include "config.h"
 #include "kernel.h"
 #include "memory/memory.h"
+#include "stdlib/stdlib.h"
 
 struct heap kernel_heap;
 struct heap_table kernel_heap_table;
@@ -17,7 +18,7 @@ void kheap_init()
     int res = heap_create(&kernel_heap, (void*)(SIMPLEOS_HEAP_ADDRESS), end, &kernel_heap_table);
     if (res < 0)
     {
-        print("Failed to create heap\n");
+        printf("Failed to create heap\n");
     }
 
 }

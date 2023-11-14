@@ -5,7 +5,7 @@
 #include "string/string.h"
 #include "memory/memory.h"
 #include "memory/heap/kheap.h"
-
+#include "stdlib/stdlib.h"
 
 static int pathparser_path_valid_format(const char* filename)
 {
@@ -138,4 +138,37 @@ struct path_root* pathparser_parse(const char* path, const char* current_directo
     
 out:
     return path_root;
+}
+
+
+char *strpath_root(struct path_root *root)
+{
+    if(root)
+    {
+        char *s = kzalloc(SIMPLEOS_MAX_PATH);
+        char *res = s; 
+        char no = digittochar(root->drive_no);
+
+        memcpy(s, &no, 1);
+        s += 1;
+
+        memcpy(s, ":/", 2);
+        s = s+2;
+
+		struct path_part *part = root->first;
+		while(part) {
+            int len =  strlen(part->part);
+            memcpy(s, (void*)part->part, len);
+            s += len;
+    
+            if (part->next) {
+                memcpy(s, "/", 1);
+                s += 1;
+            }
+			part = part->next;
+		}
+        return res;
+	} 
+
+    return 0;
 }

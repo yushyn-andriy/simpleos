@@ -1,8 +1,6 @@
 #include "memory.h"
 
 
-
-
 void *memset(void *ptr, int c, size_t size) {
 	char *c_ptr = (char*) ptr;
 	for(int i = 0; i < size; i++) {
@@ -25,3 +23,14 @@ int memcmp(void *s1, void *s2, int count)
 	return 0;
 }
 
+
+int memcpy(void *s1, void *s2, int count)
+{
+	char *c1 = s1;
+	char *c2 = s2;
+	while(count-- > 0)
+	{
+		*c1++ = *c2++;
+	}
+	return 0;
+}

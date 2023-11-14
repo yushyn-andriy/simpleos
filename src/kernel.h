@@ -16,9 +16,7 @@
 #define SIMPLEOS_MAX_PATH 108
 
 
-
 void kernel_main();
-void print(const char *str);
 
 #endif
 

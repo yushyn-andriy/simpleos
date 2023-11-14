@@ -26,7 +26,7 @@ void strrev(char *s)
 {
 	size_t len = strlen(s);
 	char tmp;
-	for(int i = 0; i < len/2; i++)
+	for(int i = 0; i < len / 2; i++)
 	{
 		tmp = s[i];
 		s[i] = s[len - i - 1];
@@ -42,4 +42,9 @@ bool isdigit(char c)
 int tonumericdigit(char c)
 {
 	return c - 0x30;
+}
+
+char digittochar(int n)
+{
+	return n + 0x30;
 }

@@ -2,9 +2,10 @@
 #include "kernel.h"
 #include "string/string.h"
 #include "terminal/terminal.h"
+#include "stdarg.h"
 
 
-void print(const char *str)
+static void print(const char *str)
 {
 	size_t len = strlen(str);
 	for(int i = 0; i<len; i++)
@@ -12,7 +13,7 @@ void print(const char *str)
 }
 
 
-void print_size_t(size_t n)
+static void print_size_t(size_t n)
 {
 	char res[SIZE_T_MAX_LEN+1];
 
@@ -37,7 +38,7 @@ pout:
 	print(res);
 }
 
-void print_hex(unsigned int num) {
+static void print_hex(unsigned int num) {
     char hex_chars[] = "0123456789ABCDEF";
     int i;
     int started = 0;
@@ -54,7 +55,43 @@ void print_hex(unsigned int num) {
     }
 }
 
-void terminal_ascii_test() {
+static void terminal_ascii_test() {
 	for(char ch = 0x21; ch<=0x7e; ch++)
 		terminal_writechar(ch, TERMINAL_DEFAULT_COLOR);
+}
+
+void printf(const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    for (const char *p = format; *p != '\0'; p++) {
+        if (*p != '%') {
+            terminal_writechar(*p, TERMINAL_DEFAULT_COLOR);
+            continue;
+        }
+
+        switch (*++p) {
+            case 'd': {
+                int ival = va_arg(args, int);
+                print_size_t(ival);
+                break;
+            }
+            case 's': {
+                char *sval = va_arg(args, char*);
+                print(sval);
+                break;
+            }
+			case 'x': {
+				int ival = va_arg(args, int);
+				print_hex(ival);
+				break;
+			}
+            default:
+                terminal_writechar(*p, TERMINAL_DEFAULT_COLOR);
+                break;
+        }
+    }
+
+    va_end(args);
 }

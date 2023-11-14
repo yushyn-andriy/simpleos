@@ -12,10 +12,9 @@
 
 
 void pkinfo() {
-	// terminal_ascii_test();
-	print("OS: SimpleOS V0.0.1\n");
-	print("Authors: Andriy Yushyn, Svitlana Yushyna.\n");
-	print("Email: baybaraandrey@gmail.com\n");
+	printf("%s\n", "OS: SimpleOS V0.0.1");
+	printf("%s\n", "Authors: Andriy Yushyn, Svitlana Yushyna.");
+	printf("%s\n", "Email: baybaraandrey@gmail.com");
 }
 
 static struct paging_4gb_chunk *kernel_chunk;
@@ -48,36 +47,10 @@ void kernel_main()
 	enable_paging();
 
 
-	char buf[512];
-	struct disk *real_disk = disk_get(0);
-	disk_read_block(real_disk, 0, 1, buf);
-
-	// disk_read_sector(0, 1, buf);	
-	// ata_lba_read(0, 1, buf);
-
-	for(int i = 100; i<5; i++) {
-		unsigned char *n = (unsigned char*) &buf[i];
-		print(" ");
-		print_hex(*n);
-	}
-
-	char *s = "0:/usr/lib/clib/stdlib.c";
-	size_t len = strlen(s);
-
-	print_hex(memcmp("1:/usr/lib/clib/stdlib.c", s, len));
-
-	struct path_root *root =  pathparser_parse(s, NULL);
-
-	if(root) {
-		print("\npath root has been succesfully created\n");
-
-		struct path_part *part = root->first;
-		while(part) {
-			print(part->part);
-			print("\n");
-			part = part->next;
-		}
-	}
+	printf("%s\n", strpath_root(pathparser_parse("0:/usr/lib/clib/stdlib.c", NULL)));
+	printf("%s\n", strpath_root(pathparser_parse("0:/home/web/opt/cross/lib/gcc/i686-elf/10.2.0/include/stddef.h", NULL)));
+	printf("%s\n", strpath_root(pathparser_parse("0:/usr/src/linux-source-6.1/include/uapi/linux/stddef.h", NULL)));
+	
 
 	enable_interrupts();
 }

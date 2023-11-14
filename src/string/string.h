@@ -14,10 +14,13 @@ size_t  strnlen(const char *s, int max);
 // reverse string in place
 void strrev(char *s);
 
-// 
+//
 bool isdigit(char c);
 
-// 
+//
 int tonumericdigit(char c);
+
+//
+char digittochar(int n);
 
 #endif

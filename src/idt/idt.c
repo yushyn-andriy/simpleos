@@ -3,6 +3,7 @@
 #include "kernel.h"
 #include "memory/memory.h"
 #include "io/io.h"
+#include "stdlib/stdlib.h"
 
 struct idt_desc idt_descriptors[SIMPLEOS_TOTAL_INTERRUPTS];
 struct idtr_desc idtr_descriptor;
@@ -17,12 +18,12 @@ void no_interrupt_handler() {
 }
 
 void int21h_handler() {
-	print("Keyboard pressed");
+	printf("Keyboard pressed");
 	outb(0x20, 0x20);
 }
 
 void idt_zero() {
-	print("Division by zero\n");
+	printf("Division by zero\n");
 }
 
 
