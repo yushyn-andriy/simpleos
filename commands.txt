@@ -3,4 +3,4 @@ add-symbol-file ./build/kernelfull.o 0x100000
 layout asm
 info registers
 target remote | qemu-system-x86_64 -S -gdb stdio -hda ./bin/os.bin
-
+sudo mount -t vfat ./bin/os.bin /mnt/d

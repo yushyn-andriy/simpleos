@@ -9,7 +9,31 @@ _start:
 	jmp short start
 	nop
 
-times 33 db 0
+; times 33 db 0
+
+OEMIdentifier                  db "FRDOS5.1"  ; OEM identifier
+BytesPerSector                 dw 0x200       ; 512 bytes, 	The number of Bytes per sector (remember, all numbers are in the little-endian format).
+NumberOfSectorsPerCluster      db 0x80        ; Number of sectors per cluster.
+NumberOfReservedSectors        dw 200         ; Number of reserved sectors. The boot record sectors are included in this value.
+NumberOfFileAllocationsTable   db 0x02        ; Usualy 2, Number of File Allocation Tables (FAT's) on the storage media. Often this value is 2.
+NumberOfRootDirectoriesEntries dw 0x40        ; Number of root directory entries (must be set so that the root directory occupies entire sectors).
+TotalSectorsInLogicalVolume    dw 0x00        ; The total sectors in the logical volume.
+MediaDescriptorType            db 0xF8        ; This Byte indicates the media descriptor type ?????????
+NumberOfSectorsPerFAT          dw 0x100       ; Number of sectors per FAT. FAT12/FAT16 only.
+NumberOfSectorsPerTrack        dw 0x20        ; Number of sectors per track.
+NumberOfHeadsOrSidesOnMedia    dw 0x40        ; Number of heads or sides on the storage media.
+NumberOfHiddenSectors          dd 0x00        ; Number of hidden sectors.
+LargeSectorCount               dd 0x773594    ; Large sector count.
+
+; Extended BPB (Dos 4.0)
+DriveNumber             db 0x80
+WinNTBit                db 0x00
+Signature               db 0x29
+VolumeID                dd 0xD105
+VolumeIDString          db 'SIMPLEOS   '
+SystemIDString          db 'FAT16   '
+
+
 
 start:
 	jmp 0:step2
