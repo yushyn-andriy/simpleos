@@ -13,6 +13,7 @@ FILES = ./build/kernel.asm.o \
 		./build/string/string.o \
 		./build/terminal/terminal.o \
 		./build/fs/pparser.o \
+		./build/fs/file.o \
 		./build/disk/streamer.o
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce \
@@ -106,6 +107,10 @@ all: ./bin/boot.bin ./bin/kernel.bin
 
 ./build/fs/pparser.o: ./src/fs/pparser.c
 	i686-elf-gcc $(INCLUDES) -I../src/fs $(FLAGS) -std=gnu99 -c  ./src/fs/pparser.c -o ./build/fs/pparser.o
+
+
+./build/fs/file.o: ./src/fs/file.c
+	i686-elf-gcc $(INCLUDES) -I../src/fs $(FLAGS) -std=gnu99 -c  ./src/fs/file.c -o ./build/fs/file.o
 
 
 ./build/disk/streamer.o: ./src/disk/streamer.c
