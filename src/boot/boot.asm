@@ -11,7 +11,7 @@ _start:
 
 ; times 33 db 0
 
-OEMIdentifier                  db "FRDOS5.1"  ; OEM identifier
+OEMIdentifier                  db "SIMPLEOS"  ; OEM identifier
 BytesPerSector                 dw 0x200       ; 512 bytes, 	The number of Bytes per sector (remember, all numbers are in the little-endian format).
 NumberOfSectorsPerCluster      db 0x80        ; Number of sectors per cluster.
 NumberOfReservedSectors        dw 200         ; Number of reserved sectors. The boot record sectors are included in this value.

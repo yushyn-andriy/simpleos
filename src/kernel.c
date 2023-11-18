@@ -32,12 +32,13 @@ void kernel_main()
 	// inititalize the heap
 	kheap_init();
 
-	// Search amd initialize the disks
-	disk_search_and_init();
-
-                      
 	// Initialize filesystems
 	fs_init();
+
+
+	// Search amd initialize the disks
+	disk_search_and_init();
+                      
 
 	// Initialize the interrupt descriptor table
 	idt_init();

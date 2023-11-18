@@ -34,6 +34,7 @@ void fs_insert_filesystem(struct filesystem* filesystem)
     }
 
     *fs = filesystem;
+    printf("Filesystem \"%s\" has been loaded\n", (*fs)->name);
 }
 
 static void fs_static_load()
@@ -90,6 +91,7 @@ struct filesystem* fs_resolve(struct disk* disk)
     struct filesystem* fs = 0;
     for (int i = 0; i < SIMPLEOS_MAX_FILESYSTEMS; i++)
     {
+        printf("Resolve %x\n", i);
         if (filesystems[i] != 0 && filesystems[i]->resolve(disk) == 0)
         {
             fs = filesystems[i];

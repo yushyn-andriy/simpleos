@@ -1,0 +1,4 @@
+# repository where is documentation and code for reading
+https://github.com/LeeKyuHyuk/fat16/blob/master/src/main.c
+
+
