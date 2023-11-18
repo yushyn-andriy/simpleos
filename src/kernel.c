@@ -35,7 +35,7 @@ void kernel_main()
 	// Search amd initialize the disks
 	disk_search_and_init();
 
-
+                      
 	// Initialize filesystems
 	fs_init();
 
