@@ -10,6 +10,8 @@
 #include "memory/memory.h"
 #include "string/string.h"
 #include "fs/pparser.h"
+#include "fs/fat/fat16.h"
+
 
 
 void pkinfo() {
@@ -34,6 +36,9 @@ void kernel_main()
 	disk_search_and_init();
 
 
+	// Initialize filesystems
+	fs_init();
+
 	// Initialize the interrupt descriptor table
 	idt_init();
 
@@ -55,10 +60,10 @@ void kernel_main()
 	printf("%s\n", strpath_root(pathparser_parse("0:/usr/src/linux-source-6.1/include/uapi/linux/stddef.h", NULL)));
 	
 
-	struct disk_stream *stream = diskstreamer_new(0);
-	diskstreamer_seek(stream, 0x200);
+	// struct disk_stream *stream = diskstreamer_new(0);
+	// diskstreamer_seek(stream, 0x200);
 
-	unsigned char c = 0;
-	diskstreamer_read(stream, &c, 1);
-	printf("%x\n", c);
+	// unsigned char c = 0;
+	// diskstreamer_read(stream, &c, 1);
+	// printf("%x\n", c);
 }

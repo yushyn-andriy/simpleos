@@ -23,4 +23,7 @@ int tonumericdigit(char c);
 //
 char digittochar(int n);
 
+//
+char* strcpy(char* dest, const char* src);
+
 #endif
