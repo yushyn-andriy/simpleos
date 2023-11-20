@@ -60,6 +60,8 @@ void kernel_main()
 	printf("%s\n", strpath_root(pathparser_parse("0:/home/web/opt/cross/lib/gcc/i686-elf/10.2.0/include/stddef.h", NULL)));
 	printf("%s\n", strpath_root(pathparser_parse("0:/usr/src/linux-source-6.1/include/uapi/linux/stddef.h", NULL)));
 	
+	printf("is equal %d\n", strncmp("123", "1234", 3));
+	printf("is equal %d\n", strncmp("1235", "1234", 4));
 
 	// struct disk_stream *stream = diskstreamer_new(0);
 	// diskstreamer_seek(stream, 0x200);
